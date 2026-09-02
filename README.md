@@ -1,0 +1,1 @@
+# Smart-community-resource-allocation-system-for-emergencies-and-disaster
