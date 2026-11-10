@@ -1,149 +1,255 @@
-# Smart-community-resource-allocation-system-for-emergencies-and-disaster
+CRAS – Community Resource Allocation System
 
-1. Project Overview
+AI-Driven Emergency Resource Allocation and Management System
 
-The Community Resource Allocation System (CRAS) is a full-stack application designed to support the management and allocation of essential community resources during emergencies and disasters.
+1. About the Project
 
-The system helps manage emergency requests, maintain resource availability, prioritize urgent needs, and coordinate resource allocation through a centralized platform.
+CRAS (Community Resource Allocation System) is an intelligent resource management system designed to improve the distribution of essential resources during emergencies and natural disasters.
+
+During emergencies such as floods, earthquakes and landslides, resources like food, water, medical kits, ambulances and shelters become limited. CRAS helps manage these resources by prioritising requests, monitoring availability and allocating resources efficiently.
+
+The system combines Operating System scheduling algorithms, Database Management Systems and Artificial Intelligence to support efficient, reliable and transparent resource allocation.
 
 2. Objectives
 
-* Manage emergency resource requests efficiently.
-* Maintain records of resources, locations, users, and allocations.
-* Prioritize requests according to emergency severity and other relevant factors.
-* Support resource allocation when resources are limited.
-* Provide role-based access for community users, resource managers, and administrators.
-* Display location-related information through GIS integration.
-* Maintain audit records and support real-time updates.
+* Efficiently allocate limited resources during emergencies.
+* Prioritise requests based on emergency severity and resource requirements.
+* Prevent duplicate allocations and resource conflicts.
+* Monitor resource inventory and availability.
+* Use AI/ML to predict potential shortages and identify unusual requests.
+* Maintain secure and consistent database operations.
+* Provide real-time updates through the application.
 
 3. Technology Stack
 
-Component	Technology
-Frontend	React.js, Vite, CSS
-Backend	Java, Spring Boot
-Database	MySQL
-Database Integration	Spring Data JPA
-Authentication	Spring Security, JWT
-Password Security	BCrypt
-Real-time Communication	WebSocket
-GIS	Leaflet and OpenStreetMap
+Component	Technologies
+Frontend	HTML5, CSS3, JavaScript
+Backend	Java 17, Spring Boot
+Backend Framework	Spring Data JPA
+Database	MySQL 8.0
+AI/ML	Python, Scikit-learn
+Machine Learning	Random Forest, XGBoost (where supported by the installed environment)
+Security	Spring Security, JWT, BCrypt
+Communication	REST APIs, Server-Sent Events (SSE)
 Build Tool	Maven
 
-4. Main Modules
+Note: The current frontend uses Vanilla JavaScript, not React.js.
 
-4.1 User Authentication and Security
+4. Key Features
 
-Provides user registration, login, authentication, and role-based access control.
+Resource Management
 
-4.2 Resource Management
+* Resource inventory management.
+* Emergency request management.
+* Resource availability tracking.
+* Allocation and stock management.
+* Prevention of negative inventory.
 
-Supports maintaining resource information, availability, and quantities.
+Operating System Concepts
 
-4.3 Emergency Request Management
+* First Come First Serve (FCFS).
+* Shortest Job First (SJF).
+* Shortest Remaining Time First (SRTF).
+* Priority Scheduling.
+* Round Robin Scheduling.
+* Priority aging and pre-emption.
+* Banker’s Algorithm and safe-state checking.
 
-Allows emergency requests to be submitted and managed according to their details and status.
+Database Management
 
-4.4 OS Scheduling and Resource Allocation
+* MySQL database integration.
+* Spring Data JPA.
+* Database transactions.
+* Concurrency control.
+* Locking and versioning.
+* Stored procedures and views.
+* Audit logging and idempotency handling.
 
-Uses operating-system scheduling concepts to prioritize emergency requests and support allocation of limited resources.
+Artificial Intelligence and Machine Learning
 
-4.5 Database Management
+* AI-based shortage prediction.
+* Random Forest-based prediction model.
+* Model comparison and evaluation.
+* Prediction confidence scores.
+* Risk classification.
+* Anomaly detection.
+* Rule-based fallback when AI predictions are unavailable or unreliable.
 
-Stores information about users, locations, resources, emergency requests, allocations, and audit records.
+Security
 
-4.6 GIS and Location Management
+* JWT-based authentication.
+* BCrypt password hashing.
+* Role-based access control.
+* Spring Security integration.
+* Login attempt protection.
 
-Supports location-based information to help identify where resources and emergency requests are situated.
+Real-Time Updates
 
-4.7 Real-Time Updates and Auditing
+* Server-Sent Events (SSE).
+* Live application updates.
+* Request and allocation monitoring.
 
-Supports real-time communication and records relevant system activities for monitoring and traceability.
+5. System Architecture
 
-4.8 AI-Based Resource Shortage Prediction — Planned
+The system follows a layered architecture:
 
-A future development module intended to estimate possible resource shortages using available historical and operational data. Prediction scores and confidence values will be integrated during a later development phase.
+1. Frontend Layer: HTML, CSS and JavaScript provide the user interface and application interactions.
+2. Backend Layer: Java and Spring Boot handle business logic, REST APIs, request processing and resource allocation.
+3. Database Layer: MySQL stores users, requests, inventory, allocation records and other application data.
+4. AI/ML Layer: Python processes data and provides shortage-risk predictions and anomaly detection.
+5. Security Layer: Spring Security and JWT manage authentication and access control.
 
-5. Project Structure
+6. Project Structure
 
-CRAS/
-├── README.md
-├── docs/
-│   ├── README.md
-│   ├── architecture.md
-│   └── modules/
-├── database/
-│   └── schema.sql
+CRAS_Phase3_Final/
+│
+├── ai/
+│   ├── model/
+│   ├── reports/
+│   ├── train_model.py
+│   ├── anomaly_detection.py
+│   └── serve.py
+│
 ├── backend/
-│   ├── pom.xml
-│   └── src/
-│       └── main/
-│           ├── java/
-│           └── resources/
-└── frontend/
-    ├── package.json
-    ├── index.html
-    └── src/
+│   ├── src/main/java/com/cras/
+│   │   ├── config/
+│   │   ├── controller/
+│   │   ├── dto/
+│   │   ├── entity/
+│   │   ├── repository/
+│   │   ├── service/
+│   │   └── os/
+│   │
+│   └── pom.xml
+│
+├── data/
+│
+├── db/
+│
+├── docs/
+│
+├── frontend/
+│   ├── index.html
+│   ├── css/
+│   │   └── styles.css
+│   └── js/
+│       ├── main.js
+│       └── core.js
+│
+├── os_sim/
+│
+├── verification/
+│
+├── requirements.txt
+├── start_backend.bat
+├── start_frontend.bat
+├── start_ai.bat
+└── start_demo.sh
 
-Note: This represents the intended project structure. Adjust the filenames if they differ from the actual repository.
-
-6. Team Responsibilities
-
-Team Member	Role	Responsibilities
-Arushi Rawat	Team Leader and System Integration	Project coordination, architecture, module integration, AI prediction planning, and overall testing
-Vinayak	DBMS and Backend	Database schema, backend APIs, data persistence, transactions, and concurrency
-Aaman	OS Scheduling and Resource Allocation	Priority scheduling, priority aging, preemption, scheduling queues, and resource allocation
-Tulsi	Frontend and Testing	User interface, dashboard, frontend integration, and testing
-
-7. Development Phases
-
-* Phase I — Planning and Architecture: Requirements, research, system design, and module allocation.
-* Phase II — Database and Backend: Database design, backend APIs, authentication, and scheduling integration.
-* Phase III — Prediction and Enhancement: AI-based resource shortage prediction and further scheduling improvements.
-* Phase IV — Frontend Integration: Dashboard improvements, GIS presentation, and real-time updates.
-* Phase V — Testing: Functional testing, concurrency testing, and limited-resource scenarios.
-* Phase VI — Final Integration: System evaluation, documentation, and demonstration.
-
-8. Setup Instructions
+7. Installation and Execution
 
 Prerequisites
 
-Install the following software before running the application:
-
-* Java 17 or a compatible version required by the backend configuration
+* Java JDK 17 or later
 * Maven
-* Node.js and npm
-* MySQL Server
+* MySQL 8.0
+* Python 3.10 or later
+* Modern web browser
 
-Backend
+Step 1: Clone the Repository
 
-1. Create the required MySQL database.
-2. Configure the database connection in backend/src/main/resources/application.properties.
-3. Open a terminal in the backend directory.
-4. Run:
+git clone YOUR_GITHUB_REPOSITORY_URL
+cd CRAS_Phase3_Final
 
+Step 2: Configure MySQL
+
+Ensure that MySQL is installed and running.
+
+The backend uses the cras_db database.
+
+Configure your database credentials using environment variables:
+
+Windows PowerShell:
+
+$env:DB_USER="root"
+$env:DB_PASSWORD="your_mysql_password"
+
+Step 3: Start the Backend
+
+cd backend
 mvn spring-boot:run
 
-Frontend
+Backend runs at:
 
-1. Open another terminal in the frontend directory.
-2. Install the dependencies:
+http://localhost:8080
 
-npm install
+Step 4: Start the Frontend
 
-3. Start the development server:
+Open another terminal:
 
-npm run dev
+cd frontend
+python -m http.server 5500
 
-4. Open the local URL displayed in the terminal.
+Open the application at:
 
-Important: Database credentials, JWT secrets, and other sensitive configuration values should be kept out of public commits.
+http://localhost:5500
 
-9. Current Scope and Future Work
+Step 5: Start the AI Service
 
-The project is being developed incrementally. The implemented features should be verified against the current source code before being described as complete.
+From the project root, create and activate a Python virtual environment.
 
-Future enhancements may include AI-based shortage prediction, prediction confidence scores, improved GIS visualization, and additional performance and concurrency testing.
+python -m venv .venv
 
-10. Project Purpose
+Activate it and install dependencies:
 
-CRAS aims to demonstrate how database management, operating-system scheduling, web development, security, and location-based services can work together to support more organized community resource allocation during emergencies.
+pip install -r requirements.txt
+
+Start the AI service:
+
+python ai/serve.py --port 8001
+
+AI service health endpoint:
+
+http://localhost:8001/health
+
+8. Testing and Verification
+
+The project includes verification scripts for different components.
+
+Run the available checks from the project root:
+
+bash verification/run_all_checks.sh
+
+Additional Python checks:
+
+python verification/test_python.py
+python verification/sql_logic_check.py
+
+9. Project Development Phases
+
+* Phase I: Project proposal, research and system architecture.
+* Phase II: Database design, backend development and resource management.
+* Phase III: Scheduling algorithms, AI integration, security, frontend integration and system verification.
+
+10. Future Scope
+
+* Integration with real-time disaster management datasets.
+* GIS-based resource tracking and mapping.
+* Improved AI prediction using historical disaster data.
+* Integration with emergency services and NGOs.
+* Mobile application development.
+* Cloud deployment and scalability improvements.
+
+11. Team
+
+Project: Community Resource Allocation System (CRAS)
+
+Developed as an academic project to demonstrate the practical application of Operating Systems, Database Management Systems, Artificial Intelligence and Full-Stack Development.
+
+⸻
+
+12. Disclaimer
+
+CRAS is an academic prototype. Predictions and resource allocation decisions should be validated using reliable real-world data and domain expertise before deployment in actual emergency situations.
+
+Made with dedication by Team CRAS.h
