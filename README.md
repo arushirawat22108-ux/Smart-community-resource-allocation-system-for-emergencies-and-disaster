@@ -1,94 +1,206 @@
-# CRAS · Community Resource Allocation System (Phase III)
+# CRAS – Smart Community Resource Allocation System During Emergencies and Disasters
 
-Spring Boot + MySQL backend, a dependency-free JavaScript frontend, and an optional Python AI service.
-Emergency requests (water, food, medical kits, blankets) are prioritised, scheduled and allocated like processes in an
-operating system, with database-level safeguards underneath.
+**Team ID:** T006  
+**Project Domain:** Operating Systems, Database Management Systems and Artificial Intelligence  
+**Project Type:** Software-Based Emergency Resource Allocation System
 
-## Run it
+---
 
-You need **JDK 17+**, **Maven**, **MySQL 8** (running) and, for the optional AI page, **Python 3.10+**.
+## 1. About the Project
 
-| Step | Command | Result |
-|---|---|---|
-| 1. Backend | `cd backend && mvn spring-boot:run` (or `start_backend.bat`) | API on http://localhost:8080 |
-| 2. Frontend | `cd frontend && python -m http.server 5500` (or `start_frontend.bat`) | UI on http://localhost:5500 |
-| 3. AI (optional) | `pip install -r requirements.txt` then `python ai/serve.py --port 8001` | Risk Oracle page |
+CRAS (Community Resource Allocation System) is a smart resource management platform designed to improve the allocation of limited resources during emergencies and natural disasters such as floods, earthquakes and other critical situations.
 
-**Set your MySQL password first.** Either edit the default in `backend/src/main/resources/application.properties`
-(`spring.datasource.password=${DB_PASSWORD:root}` → replace `root`) or set the `DB_PASSWORD` environment variable.
-The database `cras_db` is created automatically.
+During disasters, multiple resource requests may arrive simultaneously from hospitals, villages and households. However, the availability of essential resources such as water, food, blankets, shelters and ambulances is often limited.
 
-On a healthy first start the console prints `[dbms] bootstrap finished: N steps, 0 failed` and `[seed] demo data ready`.
+Traditional resource allocation methods may depend on fixed hierarchies or manual decision-making. This can result in delays, inefficient distribution and unfair resource allocation.
 
-### Demo accounts
+**Our solution is to use dynamic priority-based scheduling combined with AI-based shortage prediction and reliable database management.**
 
-| Role | E-mail | Password |
-|---|---|---|
-| Admin | admin@cras.local | `CRAS_Admin#82Xq!` |
-| Resource manager | manager@cras.local | `CRAS_Manager#73Lp!` |
-| Community user | user@cras.local | `CRAS_User#91Km!` |
+Instead of following a fixed hierarchy, CRAS calculates the priority of each request based on its urgency and the available information.
 
-These live in **one** place for the backend, `cras.seed.*` in `application.properties`, and are re-applied to the
-database on every start. The sign-in page's demo buttons read the same values from `frontend/js/config.js`
-(set `DEMO_AUTOFILL: false` there to stop the buttons filling in passwords).
+## 2. Objectives
 
+- Provide efficient resource allocation during emergencies and disasters.
+- Replace fixed resource allocation hierarchies with dynamic priority scheduling.
+- Prioritise requests based on severity, affected population, location risk and resource availability.
+- Predict possible resource shortages in the next 12 hours using machine learning.
+- Prevent starvation of low-priority requests through aging.
+- Maintain database consistency during simultaneous resource allocation.
+- Provide a platform where resource managers can manage inventory and handle incoming requests.
 
-## What is new in this version
+## 3. Key Features
 
-**Operating systems**
-* **Scheduler simulator** (OS Lab): FCFS, SJF, SRTF, static priority, round robin and CRAS aging on the same workload, with Gantt charts and metrics (average/critical/maximum wait, starvation count, preemptions, Jain fairness). Three workloads: mixed burst, steady urgent stream (starvation test), and your live queue.
-* **Banker's algorithm on live data**: relief camps hold and request multiple resources from the real depot stock; unsafe requests are refused with the safe sequence shown.
-* **Autopilot**: the scheduler as a background daemon (`@Scheduled`), with optional preemption and a manual "run one tick" button.
-* **Process-state view**: request lifecycle mapped to Ready / Running / Terminated / Killed, with live counts.
-* Existing: priority with aging, preemption, backfilling, critical reservation.
+### A. Dynamic Priority-Based Resource Allocation
 
-**Databases**
-* **Concurrency Lab**: race condition vs pessimistic locking vs optimistic versioning vs atomic UPDATE; isolation-level anomalies (dirty, non-repeatable, phantom); deadlock vs ordered locking. All on a scratch table.
-* **Triggers + stock ledger**: stock can never go negative and every change is recorded, even manual SQL; reconciliation proves `stock = sum(ledger)`.
-* **Stored procedure** `sp_allocate`, **views**, a **CHECK constraint**, a composite descending **index** matched to the scheduler query, an **EXPLAIN** viewer.
-* **Analytics** with window functions (`RANK`, running `SUM`) and a recursive CTE.
-* **Idempotency keys**: double clicks and retries create a request exactly once.
-* **Tamper-evident audit log**: SHA-256 hash chain, verifiable from the UI.
-* **Server-Sent Events**: live updates, delivered only after the database commit.
-* **Automatic severity**: nobody types a 1-10 score. The server estimates it from location risk, stock level, resource type, nearby waiting requests and three yes/no answers, shows the reasons before submitting, and a manager can override it (audited). Weights are a transparent first guess in `SeverityService.compute()`, not validated on real emergencies.
-* **Security**: login throttling (5 failures → 60 s lockout), role-based visibility (community users see masked identities and only their own requests).
+CRAS calculates a priority score for incoming requests using multiple factors:
 
-Everything database-related installs itself on start-up (`DbmsBootstrap.java`); `db/01_dbms_objects_reference.sql`
-is a readable copy. If any step fails, the app still starts and **DBMS Lab → Schema objects** shows which step and why.
+- Number of people affected.
+- Emergency severity.
+- Location risk.
+- Resource availability and scarcity.
+- Waiting time.
+- AI-based shortage prediction signal, where applicable.
 
-## Troubleshooting
+The system uses these factors to determine which requests should receive attention first.
 
-| Symptom | Cause / fix |
+This removes the dependency on a permanent hierarchy such as hospital > village > household.
+
+### B. Operating System Scheduling Algorithms
+
+The project incorporates important Operating System scheduling concepts:
+
+| Algorithm / Concept | Purpose |
 |---|---|
-| "Invalid email or password (n attempts left)" | Password differs from `application.properties`. Use the demo button, or copy the password from the table above. |
-| "Too many failed sign-in attempts" | Lockout; wait 60 s (`cras.security.lockout-seconds`). |
-| "Cannot reach the CRAS server" | Backend not running, or `API_URL` in `frontend/js/config.js` is wrong. |
-| `Access denied for user 'root'` at start-up | Set `DB_PASSWORD` or edit `application.properties`. |
-| Port 8080 / 5500 already in use | Stop the other process or change the port. |
-| Schema objects shows FAILED steps | Read the error column. Usually a MySQL privilege (needs `TRIGGER`, `CREATE ROUTINE`) or an old object with a clashing name. |
-| Map shows "unavailable offline" | The map and fonts load from CDNs; everything else works offline. |
-| Risk Oracle says AI offline | Start `python ai/serve.py --port 8001`. CRAS falls back to its rule-based formula. |
+| First Come First Serve (FCFS) | Processes requests in arrival order. |
+| Shortest Job First (SJF) | Selects the request with the shortest estimated processing time. |
+| Shortest Remaining Time First (SRTF) | Preemptive version of SJF. |
+| Priority Scheduling | Selects requests based on priority. |
+| Round Robin | Gives processes a fixed time quantum. |
+| Aging | Gradually increases the priority of waiting requests. |
+| Preemption | Allows critical work to take precedence over lower-priority work. |
+| Backfilling | Uses available resources for suitable waiting requests without unnecessarily delaying important work. |
 
-## Layout
+### C. Deadlock Avoidance
 
+The project incorporates **Banker's Algorithm** to check whether resource allocation leaves the system in a safe state.
+
+It uses the concept of safe sequences to help avoid unsafe resource allocation situations.
+
+### D. AI-Based Resource Shortage Prediction
+
+CRAS includes an AI module that estimates the probability of a resource shortage in the next 12 hours.
+
+The ensemble approach uses three machine learning models:
+
+1. **Logistic Regression:** Estimates shortage probability using input features and provides a statistical classification baseline.
+2. **Random Forest:** Combines multiple decision trees to identify complex relationships in the data.
+3. **Gradient Boosting:** Builds decision trees sequentially, with each new tree attempting to correct previous prediction errors.
+
+The predictions are combined to estimate the shortage probability.
+
+The AI module also calculates a confidence score to indicate the estimated reliability of its prediction.
+
+The AI output acts as an additional signal in the dynamic priority calculation rather than independently allocating resources.
+
+### E. Database Management and Concurrency Control
+
+CRAS uses MySQL to maintain information about users, resource requests, inventory and allocation records.
+
+Important DBMS concepts include:
+
+- **ACID Properties:** Atomicity, Consistency, Isolation and Durability.
+- **Pessimistic Locking:** Prevents conflicting updates by locking records during transactions.
+- **Optimistic Locking:** Detects conflicting modifications before updating records.
+- **Triggers:** Automatically execute database operations when specified events occur.
+- **Indexes:** Improve data retrieval performance.
+- **Transactions:** Maintain reliable and consistent resource allocation.
+- **Audit Records:** Maintain a record of resource allocation activities.
+
+These concepts help prevent incorrect inventory updates when multiple resource managers access the system simultaneously.
+
+## 4. Technology Stack
+
+| Component | Technologies |
+|---|---|
+| Backend | Java 17, Spring Boot |
+| Database | MySQL 8.0, InnoDB |
+| Frontend | HTML, CSS, JavaScript |
+| AI / Machine Learning | Python, Scikit-learn |
+| Machine Learning Models | Logistic Regression, Random Forest, Gradient Boosting |
+| Authentication | Spring Security, JWT, BCrypt |
+| Communication | REST APIs, Server-Sent Events (SSE) |
+| Build Tool | Maven |
+
+## 5. System Architecture
+
+The project is organised into the following major components:
+
+- **Frontend:** Provides the interface for users and resource managers.
+- **Backend:** Handles requests, priority calculation, authentication and resource allocation.
+- **Database:** Stores users, requests, inventory and allocation information.
+- **AI Module:** Predicts possible shortages and provides confidence scores.
+- **OS Simulation:** Demonstrates scheduling, aging, preemption and deadlock avoidance.
+- **Verification:** Contains supporting verification and testing material.
+
+## 6. Project Structure
+
+```text
+CRAS/
+│
+├── backend/          # Java Spring Boot backend
+├── frontend/         # User interface
+├── ai/               # Machine learning models and prediction
+├── db/               # Database scripts and schema
+├── os_sim/           # OS scheduling simulations
+├── data/             # Project datasets
+├── verification/     # Testing and verification
+├── docs/             # Project documentation
+│
+├── README.md
+└── scripts/          # Supporting scripts
 ```
-backend/    Spring Boot (controller / service / repository / entity, os/ = pure algorithms)
-frontend/   index.html, css/styles.css, js/*.js  (no build step)
-ai/         shortage model + service (synthetic training data)
-os_sim/     offline scheduler comparison and Banker reference (Python)
-db/         reference SQL and manual demos
-verification/  checks that need no database
-docs/VIVA_GUIDE.md   what to demo and what to say
-```
 
-## What was verified, and what was not
+## 7. How CRAS Works
 
-Verified while building this package:
-* the scheduler, Banker's and audit-hash classes compile and pass `verification/run_java_checks.sh` (textbook results, starvation and aging, tamper scenarios);
-* the whole backend type-checks against hand-written stubs of the Spring/JPA APIs it uses;
-* the frontend ran in a real browser against a mock API: sign-in (including the failure you hit), live events, every page, role restrictions, session restore, no JavaScript errors. The scheduler charts in that test came from the real simulator.
+1. Users submit resource requests through the system.
+2. The backend receives and stores the requests.
+3. The priority calculation module evaluates the requests using relevant factors.
+4. The AI module estimates possible resource shortages.
+5. The scheduling and allocation logic helps determine the order of allocation.
+6. Database transactions and locking maintain inventory consistency.
+7. Resource managers can monitor requests, manage inventory and add new resources.
 
-**Not verified here:** the backend has not been started against a real MySQL server or the real Spring/Hibernate jars (neither was available).
-Expect to run it first on your machine. The riskiest parts are the MySQL-specific pieces: trigger/procedure/view creation, the CHECK constraint,
-the analytics queries and the concurrency lab. They are isolated so a failure is reported in the UI instead of stopping the application.
-If something fails, send me the console line or the Schema-objects error text.
+## 8. Example Scenario
+
+Suppose a flood affects a particular region.
+
+- A village requests 20 litres of water.
+- A hospital requests 30 litres of water.
+- Only 20 litres are currently available.
+
+Instead of automatically prioritising the hospital, CRAS evaluates both requests using severity, number of people affected, location risk, resource scarcity and other priority factors.
+
+The system then allocates the available resources according to the calculated priority and allocation rules. Any unfulfilled request can remain pending until additional resources become available.
+
+This demonstrates how dynamic scheduling can support more informed resource distribution during emergencies.
+
+## 9. Project Novelty
+
+The major contributions of CRAS are:
+
+1. **Dynamic Priority Scheduling:** Resource requests are evaluated using multiple factors instead of a fixed hierarchy.
+2. **Starvation Prevention:** Aging helps ensure that lower-priority requests are not ignored indefinitely.
+3. **AI-Based Shortage Prediction:** An ensemble machine learning approach estimates resource shortage probability for the next 12 hours.
+4. **Confidence-Aware Allocation:** Prediction confidence can be considered alongside shortage probability.
+5. **Integration of OS, DBMS and AI:** Scheduling, database concurrency control and machine learning are combined in one emergency resource allocation platform.
+
+## 10. Future Scope
+
+- Integration with real-time disaster management data.
+- Use of live weather and geographical information.
+- Expansion of the prediction module using larger real-world datasets.
+- Integration with government and emergency response organisations.
+- Mobile application support.
+- Real-time monitoring of resources across multiple locations.
+- Improved prediction and allocation using continuously updated data.
+
+## 11. Team T006
+
+| Member | Role |
+|---|---|
+| Arushi Rawat | Team Leader, Priority Calculation, AI Module and System Integration |
+| Vinayak Pathak | Database Design, Backend and API Development |
+| Aaman Khan | OS Scheduling and Resource Allocation Logic |
+| Tulsi Manjari | Frontend Development and Interface Testing |
+
+## 12. Conclusion
+
+CRAS aims to make emergency resource allocation more efficient, reliable and responsive.
+
+By combining Operating System scheduling concepts, DBMS transaction management and AI-based shortage prediction, the system provides a structured approach to handling multiple resource requests when resources are limited.
+
+**Our goal is simple: allocate the right resources to the right requests at the right time, based on actual urgency.**
+
+---
+
+**Team T006 | CRAS – Smart Community Resource Allocation System**
