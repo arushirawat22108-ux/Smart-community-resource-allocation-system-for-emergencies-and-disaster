@@ -32,19 +32,6 @@ These live in **one** place for the backend, `cras.seed.*` in `application.prope
 database on every start. The sign-in page's demo buttons read the same values from `frontend/js/config.js`
 (set `DEMO_AUTOFILL: false` there to stop the buttons filling in passwords).
 
-## Why "Enter the Atelier" stopped working, and the fix
-
-The button was fine. The old `index.html` had the **old passwords written into it** (`value="manager123"` and a
-`data-pass` on every demo chip). After you changed the passwords in `DataSeeder`, the page kept sending
-`manager123`; the backend correctly refused it with HTTP 400 and the page showed "Invalid email or password".
-Your screenshot shows exactly that: 10 dots typed, while the new password has 18 characters.
-
-Fixed by:
-* the password field is now empty and no password appears in the HTML;
-* demo buttons take their values from `config.js`, matching `application.properties`;
-* wrong credentials now return **401** (not 400) with a clear message, and the page shows the server's text,
-  or "Cannot reach the CRAS server…" if the backend is down;
-* missing or expired tokens now return a real 401 (Spring used to answer 403), and the page signs you out cleanly.
 
 ## What is new in this version
 
