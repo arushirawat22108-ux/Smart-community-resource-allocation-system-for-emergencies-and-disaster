@@ -1,255 +1,107 @@
-CRAS – Community Resource Allocation System
-
-AI-Driven Emergency Resource Allocation and Management System
-
-1. About the Project
-
-CRAS (Community Resource Allocation System) is an intelligent resource management system designed to improve the distribution of essential resources during emergencies and natural disasters.
-
-During emergencies such as floods, earthquakes and landslides, resources like food, water, medical kits, ambulances and shelters become limited. CRAS helps manage these resources by prioritising requests, monitoring availability and allocating resources efficiently.
-
-The system combines Operating System scheduling algorithms, Database Management Systems and Artificial Intelligence to support efficient, reliable and transparent resource allocation.
-
-2. Objectives
-
-* Efficiently allocate limited resources during emergencies.
-* Prioritise requests based on emergency severity and resource requirements.
-* Prevent duplicate allocations and resource conflicts.
-* Monitor resource inventory and availability.
-* Use AI/ML to predict potential shortages and identify unusual requests.
-* Maintain secure and consistent database operations.
-* Provide real-time updates through the application.
-
-3. Technology Stack
-
-Component	Technologies
-Frontend	HTML5, CSS3, JavaScript
-Backend	Java 17, Spring Boot
-Backend Framework	Spring Data JPA
-Database	MySQL 8.0
-AI/ML	Python, Scikit-learn
-Machine Learning	Random Forest, XGBoost (where supported by the installed environment)
-Security	Spring Security, JWT, BCrypt
-Communication	REST APIs, Server-Sent Events (SSE)
-Build Tool	Maven
-
-Note: The current frontend uses Vanilla JavaScript, not React.js.
-
-4. Key Features
-
-Resource Management
-
-* Resource inventory management.
-* Emergency request management.
-* Resource availability tracking.
-* Allocation and stock management.
-* Prevention of negative inventory.
-
-Operating System Concepts
-
-* First Come First Serve (FCFS).
-* Shortest Job First (SJF).
-* Shortest Remaining Time First (SRTF).
-* Priority Scheduling.
-* Round Robin Scheduling.
-* Priority aging and pre-emption.
-* Banker’s Algorithm and safe-state checking.
-
-Database Management
-
-* MySQL database integration.
-* Spring Data JPA.
-* Database transactions.
-* Concurrency control.
-* Locking and versioning.
-* Stored procedures and views.
-* Audit logging and idempotency handling.
-
-Artificial Intelligence and Machine Learning
-
-* AI-based shortage prediction.
-* Random Forest-based prediction model.
-* Model comparison and evaluation.
-* Prediction confidence scores.
-* Risk classification.
-* Anomaly detection.
-* Rule-based fallback when AI predictions are unavailable or unreliable.
-
-Security
-
-* JWT-based authentication.
-* BCrypt password hashing.
-* Role-based access control.
-* Spring Security integration.
-* Login attempt protection.
-
-Real-Time Updates
-
-* Server-Sent Events (SSE).
-* Live application updates.
-* Request and allocation monitoring.
-
-5. System Architecture
-
-The system follows a layered architecture:
-
-1. Frontend Layer: HTML, CSS and JavaScript provide the user interface and application interactions.
-2. Backend Layer: Java and Spring Boot handle business logic, REST APIs, request processing and resource allocation.
-3. Database Layer: MySQL stores users, requests, inventory, allocation records and other application data.
-4. AI/ML Layer: Python processes data and provides shortage-risk predictions and anomaly detection.
-5. Security Layer: Spring Security and JWT manage authentication and access control.
-
-6. Project Structure
-
-CRAS_Phase3_Final/
-│
-├── ai/
-│   ├── model/
-│   ├── reports/
-│   ├── train_model.py
-│   ├── anomaly_detection.py
-│   └── serve.py
-│
-├── backend/
-│   ├── src/main/java/com/cras/
-│   │   ├── config/
-│   │   ├── controller/
-│   │   ├── dto/
-│   │   ├── entity/
-│   │   ├── repository/
-│   │   ├── service/
-│   │   └── os/
-│   │
-│   └── pom.xml
-│
-├── data/
-│
-├── db/
-│
-├── docs/
-│
-├── frontend/
-│   ├── index.html
-│   ├── css/
-│   │   └── styles.css
-│   └── js/
-│       ├── main.js
-│       └── core.js
-│
-├── os_sim/
-│
-├── verification/
-│
-├── requirements.txt
-├── start_backend.bat
-├── start_frontend.bat
-├── start_ai.bat
-└── start_demo.sh
-
-7. Installation and Execution
-
-Prerequisites
-
-* Java JDK 17 or later
-* Maven
-* MySQL 8.0
-* Python 3.10 or later
-* Modern web browser
-
-Step 1: Clone the Repository
-
-git clone YOUR_GITHUB_REPOSITORY_URL
-cd CRAS_Phase3_Final
-
-Step 2: Configure MySQL
-
-Ensure that MySQL is installed and running.
-
-The backend uses the cras_db database.
-
-Configure your database credentials using environment variables:
-
-Windows PowerShell:
-
-$env:DB_USER="root"
-$env:DB_PASSWORD="your_mysql_password"
-
-Step 3: Start the Backend
-
-cd backend
-mvn spring-boot:run
-
-Backend runs at:
-
-http://localhost:8080
-
-Step 4: Start the Frontend
-
-Open another terminal:
-
-cd frontend
-python -m http.server 5500
-
-Open the application at:
-
-http://localhost:5500
-
-Step 5: Start the AI Service
-
-From the project root, create and activate a Python virtual environment.
-
-python -m venv .venv
-
-Activate it and install dependencies:
-
-pip install -r requirements.txt
-
-Start the AI service:
-
-python ai/serve.py --port 8001
-
-AI service health endpoint:
-
-http://localhost:8001/health
-
-8. Testing and Verification
-
-The project includes verification scripts for different components.
-
-Run the available checks from the project root:
-
-bash verification/run_all_checks.sh
-
-Additional Python checks:
-
-python verification/test_python.py
-python verification/sql_logic_check.py
-
-9. Project Development Phases
-
-* Phase I: Project proposal, research and system architecture.
-* Phase II: Database design, backend development and resource management.
-* Phase III: Scheduling algorithms, AI integration, security, frontend integration and system verification.
-
-10. Future Scope
-
-* Integration with real-time disaster management datasets.
-* GIS-based resource tracking and mapping.
-* Improved AI prediction using historical disaster data.
-* Integration with emergency services and NGOs.
-* Mobile application development.
-* Cloud deployment and scalability improvements.
-
-11. Team
-
-Project: Community Resource Allocation System (CRAS)
-
-Developed as an academic project to demonstrate the practical application of Operating Systems, Database Management Systems, Artificial Intelligence and Full-Stack Development.
-
-⸻
-
-12. Disclaimer
-
-CRAS is an academic prototype. Predictions and resource allocation decisions should be validated using reliable real-world data and domain expertise before deployment in actual emergency situations.
-
-Made with dedication by Team CRAS.h
+# CRAS · Community Resource Allocation System (Phase III)
+
+Spring Boot + MySQL backend, a dependency-free JavaScript frontend, and an optional Python AI service.
+Emergency requests (water, food, medical kits, blankets) are prioritised, scheduled and allocated like processes in an
+operating system, with database-level safeguards underneath.
+
+## Run it
+
+You need **JDK 17+**, **Maven**, **MySQL 8** (running) and, for the optional AI page, **Python 3.10+**.
+
+| Step | Command | Result |
+|---|---|---|
+| 1. Backend | `cd backend && mvn spring-boot:run` (or `start_backend.bat`) | API on http://localhost:8080 |
+| 2. Frontend | `cd frontend && python -m http.server 5500` (or `start_frontend.bat`) | UI on http://localhost:5500 |
+| 3. AI (optional) | `pip install -r requirements.txt` then `python ai/serve.py --port 8001` | Risk Oracle page |
+
+**Set your MySQL password first.** Either edit the default in `backend/src/main/resources/application.properties`
+(`spring.datasource.password=${DB_PASSWORD:root}` → replace `root`) or set the `DB_PASSWORD` environment variable.
+The database `cras_db` is created automatically.
+
+On a healthy first start the console prints `[dbms] bootstrap finished: N steps, 0 failed` and `[seed] demo data ready`.
+
+### Demo accounts
+
+| Role | E-mail | Password |
+|---|---|---|
+| Admin | admin@cras.local | `CRAS_Admin#82Xq!` |
+| Resource manager | manager@cras.local | `CRAS_Manager#73Lp!` |
+| Community user | user@cras.local | `CRAS_User#91Km!` |
+
+These live in **one** place for the backend, `cras.seed.*` in `application.properties`, and are re-applied to the
+database on every start. The sign-in page's demo buttons read the same values from `frontend/js/config.js`
+(set `DEMO_AUTOFILL: false` there to stop the buttons filling in passwords).
+
+## Why "Enter the Atelier" stopped working, and the fix
+
+The button was fine. The old `index.html` had the **old passwords written into it** (`value="manager123"` and a
+`data-pass` on every demo chip). After you changed the passwords in `DataSeeder`, the page kept sending
+`manager123`; the backend correctly refused it with HTTP 400 and the page showed "Invalid email or password".
+Your screenshot shows exactly that: 10 dots typed, while the new password has 18 characters.
+
+Fixed by:
+* the password field is now empty and no password appears in the HTML;
+* demo buttons take their values from `config.js`, matching `application.properties`;
+* wrong credentials now return **401** (not 400) with a clear message, and the page shows the server's text,
+  or "Cannot reach the CRAS server…" if the backend is down;
+* missing or expired tokens now return a real 401 (Spring used to answer 403), and the page signs you out cleanly.
+
+## What is new in this version
+
+**Operating systems**
+* **Scheduler simulator** (OS Lab): FCFS, SJF, SRTF, static priority, round robin and CRAS aging on the same workload, with Gantt charts and metrics (average/critical/maximum wait, starvation count, preemptions, Jain fairness). Three workloads: mixed burst, steady urgent stream (starvation test), and your live queue.
+* **Banker's algorithm on live data**: relief camps hold and request multiple resources from the real depot stock; unsafe requests are refused with the safe sequence shown.
+* **Autopilot**: the scheduler as a background daemon (`@Scheduled`), with optional preemption and a manual "run one tick" button.
+* **Process-state view**: request lifecycle mapped to Ready / Running / Terminated / Killed, with live counts.
+* Existing: priority with aging, preemption, backfilling, critical reservation.
+
+**Databases**
+* **Concurrency Lab**: race condition vs pessimistic locking vs optimistic versioning vs atomic UPDATE; isolation-level anomalies (dirty, non-repeatable, phantom); deadlock vs ordered locking. All on a scratch table.
+* **Triggers + stock ledger**: stock can never go negative and every change is recorded, even manual SQL; reconciliation proves `stock = sum(ledger)`.
+* **Stored procedure** `sp_allocate`, **views**, a **CHECK constraint**, a composite descending **index** matched to the scheduler query, an **EXPLAIN** viewer.
+* **Analytics** with window functions (`RANK`, running `SUM`) and a recursive CTE.
+* **Idempotency keys**: double clicks and retries create a request exactly once.
+* **Tamper-evident audit log**: SHA-256 hash chain, verifiable from the UI.
+* **Server-Sent Events**: live updates, delivered only after the database commit.
+* **Automatic severity**: nobody types a 1-10 score. The server estimates it from location risk, stock level, resource type, nearby waiting requests and three yes/no answers, shows the reasons before submitting, and a manager can override it (audited). Weights are a transparent first guess in `SeverityService.compute()`, not validated on real emergencies.
+* **Security**: login throttling (5 failures → 60 s lockout), role-based visibility (community users see masked identities and only their own requests).
+
+Everything database-related installs itself on start-up (`DbmsBootstrap.java`); `db/01_dbms_objects_reference.sql`
+is a readable copy. If any step fails, the app still starts and **DBMS Lab → Schema objects** shows which step and why.
+
+## Troubleshooting
+
+| Symptom | Cause / fix |
+|---|---|
+| "Invalid email or password (n attempts left)" | Password differs from `application.properties`. Use the demo button, or copy the password from the table above. |
+| "Too many failed sign-in attempts" | Lockout; wait 60 s (`cras.security.lockout-seconds`). |
+| "Cannot reach the CRAS server" | Backend not running, or `API_URL` in `frontend/js/config.js` is wrong. |
+| `Access denied for user 'root'` at start-up | Set `DB_PASSWORD` or edit `application.properties`. |
+| Port 8080 / 5500 already in use | Stop the other process or change the port. |
+| Schema objects shows FAILED steps | Read the error column. Usually a MySQL privilege (needs `TRIGGER`, `CREATE ROUTINE`) or an old object with a clashing name. |
+| Map shows "unavailable offline" | The map and fonts load from CDNs; everything else works offline. |
+| Risk Oracle says AI offline | Start `python ai/serve.py --port 8001`. CRAS falls back to its rule-based formula. |
+
+## Layout
+
+```
+backend/    Spring Boot (controller / service / repository / entity, os/ = pure algorithms)
+frontend/   index.html, css/styles.css, js/*.js  (no build step)
+ai/         shortage model + service (synthetic training data)
+os_sim/     offline scheduler comparison and Banker reference (Python)
+db/         reference SQL and manual demos
+verification/  checks that need no database
+docs/VIVA_GUIDE.md   what to demo and what to say
+```
+
+## What was verified, and what was not
+
+Verified while building this package:
+* the scheduler, Banker's and audit-hash classes compile and pass `verification/run_java_checks.sh` (textbook results, starvation and aging, tamper scenarios);
+* the whole backend type-checks against hand-written stubs of the Spring/JPA APIs it uses;
+* the frontend ran in a real browser against a mock API: sign-in (including the failure you hit), live events, every page, role restrictions, session restore, no JavaScript errors. The scheduler charts in that test came from the real simulator.
+
+**Not verified here:** the backend has not been started against a real MySQL server or the real Spring/Hibernate jars (neither was available).
+Expect to run it first on your machine. The riskiest parts are the MySQL-specific pieces: trigger/procedure/view creation, the CHECK constraint,
+the analytics queries and the concurrency lab. They are isolated so a failure is reported in the UI instead of stopping the application.
+If something fails, send me the console line or the Schema-objects error text.
