@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CRAS · Community Resource Allocation System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ============================ SIGN-IN ============================ -->
+<main id="login-view" class="login">
+  <form id="login-form" class="login-card" autocomplete="on" novalidate>
+    <div class="crest" aria-hidden="true">C</div>
+    <h1>CRAS</h1>
+    <p class="sub">Community Resource Allocation System</p>
+
+    <label for="login-email">Email</label>
+    <input id="login-email" name="email" type="email" autocomplete="username" required>
+
+    <label for="login-password">Password</label>
+    <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+
+    <button id="login-btn" class="btn primary wide" type="submit">Sign in</button>
+    <p id="login-error" class="form-error" role="alert" aria-live="polite"></p>
+
+    <div id="demo-box" class="demo">
+      <span class="eyebrow">Demo accounts</span>
+      <div class="chips">
+        <button type="button" class="chip" data-demo="admin">Admin</button>
+        <button type="button" class="chip" data-demo="manager">Manager</button>
+        <button type="button" class="chip" data-demo="user">Community user</button>
+      </div>
+      <p id="demo-hint" class="hint"></p>
+    </div>
+  </form>
+</main>
+
+<!-- ============================== APP ============================== -->
+<div id="app-view" class="app" hidden>
+  <aside class="side">
+    <div class="brand"><span class="crest sm">C</span><div><b>CRAS</b><small>Phase III</small></div></div>
+    <nav id="nav"></nav>
+    <div class="side-foot">
+      <div id="who" class="who"></div>
+      <div class="live"><span id="live-dot" class="dot"></span><span id="live-text">connecting…</span></div>
+      <button id="logout-btn" class="btn ghost wide">Sign out</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="top"><h2 id="page-title"></h2><p id="page-sub" class="muted"></p></header>
+    <section id="v-overview" class="view" hidden></section>
+    <section id="v-request" class="view" hidden></section>
+    <section id="v-queue" class="view" hidden></section>
+    <section id="v-manager" class="view" hidden></section>
+    <section id="v-oslab" class="view" hidden></section>
+    <section id="v-dbms" class="view" hidden></section>
+    <section id="v-oracle" class="view" hidden></section>
+    <section id="v-audit" class="view" hidden></section>
+  </main>
+</div>
+
+<div id="toasts" aria-live="polite"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/config.js"></script>
+<script src="js/core.js"></script>
+<script src="js/view-overview.js"></script>
+<script src="js/view-request.js"></script>
+<script src="js/view-queue.js"></script>
+<script src="js/view-manager.js"></script>
+<script src="js/view-oslab.js"></script>
+<script src="js/view-dbms.js"></script>
+<script src="js/view-oracle.js"></script>
+<script src="js/view-audit.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

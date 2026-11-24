@@ -1,0 +1,123 @@
+{
+  "split": {
+    "train": 21379,
+    "val": 4908,
+    "test": 4915,
+    "shortage_rate_test": 0.0267
+  },
+  "classification": [
+    {
+      "model": "Rule: stock_ratio low",
+      "roc_auc": 0.8556,
+      "pr_auc": 0.1732,
+      "brier": 0.1391,
+      "precision": 0.1949,
+      "recall": 0.4046,
+      "f1": 0.263,
+      "threshold": 0.65
+    },
+    {
+      "model": "Logistic Regression (raw)",
+      "roc_auc": 0.9535,
+      "pr_auc": 0.6922,
+      "brier": 0.0145,
+      "precision": 0.75,
+      "recall": 0.5725,
+      "f1": 0.6494,
+      "threshold": 0.67
+    },
+    {
+      "model": "Random Forest (raw)",
+      "roc_auc": 0.9409,
+      "pr_auc": 0.6157,
+      "brier": 0.0161,
+      "precision": 0.7179,
+      "recall": 0.4275,
+      "f1": 0.5359,
+      "threshold": 0.63
+    },
+    {
+      "model": "Gradient Boosting (sklearn fallback) (raw)",
+      "roc_auc": 0.9579,
+      "pr_auc": 0.6598,
+      "brier": 0.0167,
+      "precision": 0.6239,
+      "recall": 0.5573,
+      "f1": 0.5887,
+      "threshold": 0.59
+    },
+    {
+      "model": "Ensemble LR+RF+GB (calibrated)",
+      "roc_auc": 0.9553,
+      "pr_auc": 0.6733,
+      "brier": 0.0137,
+      "precision": 0.7115,
+      "recall": 0.5649,
+      "f1": 0.6298,
+      "threshold": 0.38
+    }
+  ],
+  "confidence_bands": [
+    {
+      "confidence_band": "low",
+      "n": 1638,
+      "mean_confidence": 0.88,
+      "accuracy": 0.9518,
+      "positives": 121
+    },
+    {
+      "confidence_band": "medium",
+      "n": 1638,
+      "mean_confidence": 0.986,
+      "accuracy": 0.9951,
+      "positives": 10
+    },
+    {
+      "confidence_band": "high",
+      "n": 1639,
+      "mean_confidence": 1.0,
+      "accuracy": 1.0,
+      "positives": 0
+    }
+  ],
+  "demand_forecast": {
+    "wape_random_forest": 0.314,
+    "wape_moving_window_baseline": 0.5715
+  },
+  "top_features": [
+    {
+      "feature": "stock_ratio",
+      "importance": 0.0655
+    },
+    {
+      "feature": "hours_since_replenish",
+      "importance": 0.0359
+    },
+    {
+      "feature": "hour",
+      "importance": 0.0304
+    },
+    {
+      "feature": "rain_6h",
+      "importance": 0.0261
+    },
+    {
+      "feature": "event_intensity",
+      "importance": 0.0244
+    },
+    {
+      "feature": "stock",
+      "importance": 0.0075
+    },
+    {
+      "feature": "rain_1h",
+      "importance": 0.0071
+    },
+    {
+      "feature": "res_Medical Kit",
+      "importance": 0.0027
+    }
+  ],
+  "boosting_model": "Gradient Boosting (sklearn fallback)",
+  "xgboost_used": false
+}
